@@ -1,5 +1,6 @@
 import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait as wdw
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
@@ -19,7 +20,12 @@ class WebDriverHandler:
         self.driver = None
 
     def start_driver(self):
-        self.driver = webdriver.Chrome()
+        chrome_option = Options()
+        chrome_option.add_argument('--no-sandbox')
+        chrome_option.add_argument('--headless')
+        chrome_option.add_argument('--disable-dev-shm-usage')
+        self.driver = webdriver.Chrome(options=chrome_option)
+        self.driver.get("https://pegasys.uz.pegast.asia")
         self.driver.implicitly_wait(10)
 
     def stop_driver(self):
@@ -27,10 +33,16 @@ class WebDriverHandler:
             self.driver.quit()
             self.driver = None
 
-    def wait_for_element(self, by, value, timeout=10):
-        return wdw(self.driver, timeout).until(ec.visibility_of_element_located((by, value)))
+    def get_index_num(self):
+        print("Ketadigan shaharni tanlang:")
+        cities = {"Бухара": "2", "Наманган": "3", "Самарканд": "4", "Ташкент": "5", "Фергана": "6"}
+        print("Shaharni tanlang:")
+        for e in cities:
+            print(f"{e} uchun {cities[e]}")
+        i = input(f":>>>")
+        return i
 
-    def click_on(self, elem):
+    def click_on_by_xpath(self, elem):
         return wdw(self.driver, timeout=20).until(ec.visibility_of_element_located((By.XPATH, elem))).click()
 
     def go_to_page(self, url):
@@ -39,9 +51,9 @@ class WebDriverHandler:
         self.driver.get(url)
 
     def perform_actions(self):
-        self.click_on(x_elem)
-        self.click_on(from_drop_menu)
-        self.click_on(tashkent_option)
+        self.click_on_by_xpath(x_elem)
+        self.click_on_by_xpath(from_drop_menu)
+        self.click_on_by_xpath(tashkent_option)
 
         print("Passed")
 

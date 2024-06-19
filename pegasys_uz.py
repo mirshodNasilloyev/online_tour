@@ -36,7 +36,7 @@ class WebDriverHandler:
     def setup_driver(self, url):
         chrome_option = Options()
         chrome_option.add_argument('--no-sandbox')
-        # chrome_option.add_argument('--headless')
+        chrome_option.add_argument('--headless')
         chrome_option.add_argument('--disable-dev-5shm-usage')
         self.driver = webdriver.Chrome(options=chrome_option)
         self.driver.get(url)
@@ -78,7 +78,7 @@ class WebDriverHandler:
             self.driver.find_element(By.CSS_SELECTOR, options_css)
             time.sleep(2)
             self.click_on_by_css(search_btn_css)
-            time.sleep(4)
+            time.sleep(5)
             self.update_database()
 
     def update_database(self):
